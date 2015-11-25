@@ -1,18 +1,17 @@
 clear all;
 
-% Control data:
 % http://www.cems.uvm.edu/~rsnapp/teaching/cs256/lectures/capacity.pdf
 
 % Parameters:
-p = 4; % Number of data points
-n = 2; % Dimensions
+p = 16; % Number of data points
+n = 4; % Dimensions
 bias_x = 1; % Include bias column
-max_epochs = 1000;
+max_epochs = 100;
 learning_rate = 1/n;
 runs = 1000;
 alpha = p / n;
 
-disp(sprintf('alpha = %f',alpha));
+fprintf('alpha=%f',alpha);
 
 successful_linear_separations = 0;
 for run = 1:runs
@@ -52,5 +51,5 @@ for run = 1:runs
     end
 end
 
-disp(sprintf('Ratio of successful linear separations = %f',successful_linear_separations / runs));
+fprintf('Ratio of successful l.s. = %f',successful_linear_separations / runs);
 
