@@ -1,15 +1,15 @@
 clear all;
 
-% Control data:
+% Control data (for non-homogenous case):
 % http://www.cems.uvm.edu/~rsnapp/teaching/cs256/lectures/capacity.pdf
 
 % Parameters:
-p = 4; % Number of data points
-n = 2; % Dimensions
-bias_x = 1; % Include bias column
-max_epochs = 1000;
+n = 20; % Dimensions
+p = 3*n; % Number of data points
+bias_x = 0; % Include bias column
+max_epochs = 1000; % nmax
 learning_rate = 1/n;
-runs = 1000;
+runs = 1000; % nD
 alpha = p / n;
 
 disp(sprintf('alpha = %f',alpha));
@@ -52,5 +52,6 @@ for run = 1:runs
     end
 end
 
-disp(sprintf('Ratio of successful linear separations = %f',successful_linear_separations / runs));
+disp(sprintf('Empirical ratio of successful linear separations = %f',successful_linear_separations / runs)); % Q
+disp(sprintf('Theoretical ratio of successful linear separations = %f',lin_sep_count(p,n) / 2^p)); % C(P+1,N) = C(P,N)+C(P,N-1)
 
