@@ -14,7 +14,7 @@ successful_linear_separations = 0;
 
 for run = 1:runs
     %create random data
-    data = rand(P,N); %create P random datapoints with N dimensions
+    data = randn(P,N); %create P random datapoints with N dimensions with mean 0, and variance 1?
     labels = sign(rand(P,1)-0.5); %Create random binary labels [-1, 1]
 
     if bias == true
