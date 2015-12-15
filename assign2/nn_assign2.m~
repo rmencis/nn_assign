@@ -1,0 +1,28 @@
+clear all;
+
+% Parameters:
+n = 5; % Dimensions
+p = 3*n; % Number of data points
+learning_rate = 1/n;
+alpha = p / n;
+max_epochs = 1000; % nmax
+
+% Generate data
+data = randn(p,n);
+teacher_w = randn(1,n);
+labels = sign(teacher_w * data');
+
+% Random initial weights
+student_w = randn(1,n);
+
+for epoch = 1:max_epochs
+    stabilities = ((student_w * data') .* labels) / norm(student_w);
+    [min_stability_value, min_stability_index] = min(stabilities);
+    min_stability_example = data(min_stability_index,:);
+    min_stability_label = labels(min_stability_index);
+    delta_w = (1/n) * (min_stability_example * min_stability_label);
+    student_w = student_w + delta_w;
+    predicted_labels = sign(student_w * data');
+    accuracy = sum(predicted_labels == labels) / len(
+    disp(sprintf('Epoch %d, accuracy %f',epoch,
+end
