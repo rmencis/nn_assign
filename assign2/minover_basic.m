@@ -30,10 +30,13 @@ for epoch = 1:max_epochs
     % Make prediction and calculate accuracy
     predicted_labels = sign(student_w * data');
     accuracy = sum(predicted_labels == labels) / p;
+    % Determines the so-called learning curve, i.e. the generalization error
+    generalization_error = (1/pi) * acos((student_w*teacher_w') / (norm(student_w)*norm(teacher_w)));
+    
     % Has student weights changed much?
     cos_similarity = (prev_student_w*student_w')/(norm(prev_student_w)*norm(student_w));
-    disp(sprintf('Epoch %d, accuracy %f, min stability %f, prev. weight similarity %f',epoch,accuracy,min_stability_value,cos_similarity));
-    if accuracy == 1 & cos_similarity > 0.9999
+    disp(sprintf('Epoch %d, accuracy %f, min stability %f, gen. error %f, prev. weight similarity %f',epoch,accuracy,min_stability_value,generalization_error,cos_similarity));
+    if accuracy == 1 && cos_similarity > 0.9999
         break;
     end
 end
