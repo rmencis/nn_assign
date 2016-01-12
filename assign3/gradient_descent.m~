@@ -1,0 +1,30 @@
+clear all;
+
+learning_rate = 0.05;
+data_count = 100; % p
+dimensions = 3; % N
+hidden_unit_count = 2;
+
+% Generate data
+data = randn(data_count,dimensions);
+teacher_weights = randn(hidden_unit_count,dimensions);
+labels = get_nn_output(teacher_weights,data)';
+
+student_weights = randn(hidden_unit_count,dimensions);
+total_cost = get_nn_cost(student_weights,data,labels);
+
+t_max = 100;
+for i = t_max * data_count
+    data_index = randi(length(data));
+    data_value = data(data_index,:);
+    target_label = labels(data_index);
+    
+    analytic_cost_gradient = get_nn_analytic_gradient(student_weights,data_value,target_label);
+    
+    student_weights = student_weights - (learning_rate * analytic_cost_gradient)
+end;
+
+%output = get_nn_output(weights,data_value);
+%cost = get_nn_cost(weights,data_value,target_label);
+%analytic_cost_gradient = get_nn_analytic_gradient(weights,data_value,target_label);
+%numerical_cost_gradient = get_nn_numeric_gradient(weights,data_value,target_label);

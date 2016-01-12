@@ -1,0 +1,10 @@
+function gradient = get_nn_numeric_gradient( w,x )
+    delta = 0.00001;
+    for i = 1:length(w)
+    value0 = get_nn_output(w,x);
+    value1 = get_nn_output(w+delta,x);
+    value_delta = value1 - value0;
+    gradient = value_delta / delta;
+    end
+end
+
