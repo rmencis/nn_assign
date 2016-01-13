@@ -5,9 +5,11 @@ load('data3.mat')
 
 %set parameters
 learning_rate = 0.05;
-p = 400; %number of points to train on
+p = 500; %number of points to train on
+Q = p;      %distance to determine generalization error
 determine_error = true;
 determine_generalization_error = true;
+plot_weights = true;
 
 n_dimensions = size(xi,1);
 n_datapoints = size(xi,2);
@@ -47,9 +49,7 @@ for n = random_order
     %generalization error
     if determine_generalization_error == true
         generalization_error(iter) = 0;
-        Q = 100;
-        for i = 1:p
-            i = i + Q;
+        for i = (1+Q):(p+Q)
             input = xi(:,i);
             predicted_label = tanh(dot(input, weight_1)) + tanh(dot(input, weight_2));
             actual_label = tau(i);
@@ -63,7 +63,9 @@ for n = random_order
 end
 
 if determine_error == true || determine_generalization_error == true
+    figure();
     plot(error);
+    title('cost function');
     hold on
     plot(generalization_error, 'r');
     xlabel('iteration');
@@ -71,5 +73,17 @@ if determine_error == true || determine_generalization_error == true
     legend('error','generalization error');
 end
 
-
-
+if plot_weights == true
+    figure();
+    bar(weight_1);
+    xlim([0 n_dimensions+1]);
+    title('Weight 1');
+    xlabel('j');
+    ylabel('\omega_j-value');
+    figure();
+    bar(weight_2);
+    xlim([0 n_dimensions+1]);
+    title('Weight 2');
+    xlabel('j');
+    ylabel('\omega_j-value');
+end
