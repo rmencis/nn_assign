@@ -30,9 +30,12 @@ for n = random_order
     actual_label = tau(n);
     error_contribution = ((predicted_label - actual_label)^2)/2;
     
+    %determine gradient
+    gradient_1 = (predicted_label - actual_label) * (1 - tanh(dot(input, weight_1)).^2) * input;
+    gradient_2 = (predicted_label - actual_label) * (1 - tanh(dot(input, weight_2)).^2) * input;
     %update weights
-    weight_1 = weight_1 - learning_rate .* weight_1 .* error_contribution;
-    weight_2 = weight_2 - learning_rate .* weight_2 .* error_contribution;
+    weight_1 = weight_1 - (learning_rate * gradient_1);
+    weight_2 = weight_2 - (learning_rate * gradient_2);
     
     %determine overall error (cost-function)
     if determine_error == true        
